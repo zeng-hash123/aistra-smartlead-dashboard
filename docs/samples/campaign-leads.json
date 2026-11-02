@@ -1,0 +1,112 @@
+{
+  "total_leads": "234",
+  "data": [
+    {
+      "campaign_lead_map_id": "3911344012",
+      "lead_category_id": null,
+      "status": "INPROGRESS",
+      "created_at": "2026-10-26T10:36:14.000Z",
+      "lead": {
+        "id": 4644946681,
+        "first_name": "SanitizedName",
+        "last_name": "SanitizedName",
+        "email": "lead@example.com",
+        "phone_number": "+15550000000",
+        "company_name": "BWP",
+        "website": null,
+        "location": null,
+        "custom_fields": {},
+        "linkedin_profile": "https://www.linkedin.com/in/aliciadrummond1994",
+        "company_url": "https://example.com",
+        "is_unsubscribed": false,
+        "unsubscribed_client_id_map": {}
+      }
+    },
+    {
+      "campaign_lead_map_id": "3911352653",
+      "lead_category_id": null,
+      "status": "INPROGRESS",
+      "created_at": "2026-10-26T10:37:55.000Z",
+      "lead": {
+        "id": 4644951435,
+        "first_name": "SanitizedName",
+        "last_name": "SanitizedName",
+        "email": "lead@example.com",
+        "phone_number": "+15550000000",
+        "company_name": "Tomorrow",
+        "website": null,
+        "location": null,
+        "custom_fields": {},
+        "linkedin_profile": "https://www.linkedin.com/in/jack-wyllie-543792125",
+        "company_url": "https://example.com",
+        "is_unsubscribed": false,
+        "unsubscribed_client_id_map": {}
+      }
+    },
+    {
+      "campaign_lead_map_id": "3911352855",
+      "lead_category_id": null,
+      "status": "INPROGRESS",
+      "created_at": "2026-10-26T10:37:57.000Z",
+      "lead": {
+        "id": 4644946762,
+        "first_name": "SanitizedName",
+        "last_name": "SanitizedName",
+        "email": "lead@example.com",
+        "phone_number": "+15550000000",
+        "company_name": "Quantum Marketing",
+        "website": null,
+        "location": null,
+        "custom_fields": {},
+        "linkedin_profile": "https://www.linkedin.com/in/jazz-dale-8039954",
+        "company_url": "https://example.com",
+        "is_unsubscribed": false,
+        "unsubscribed_client_id_map": {}
+      }
+    },
+    {
+      "campaign_lead_map_id": "3911353057",
+      "lead_category_id": null,
+      "status": "INPROGRESS",
+      "created_at": "2026-10-26T10:38:00.000Z",
+      "lead": {
+        "id": 4644953300,
+        "first_name": "SanitizedName",
+        "last_name": "SanitizedName",
+        "email": "lead@example.com",
+        "phone_number": "+15550000000",
+        "company_name": "StrategiQ",
+        "website": null,
+        "location": null,
+        "custom_fields": {},
+        "linkedin_profile": "https://www.linkedin.com/in/corriejones",
+        "company_url": "https://example.com",
+        "is_unsubscribed": false,
+        "unsubscribed_client_id_map": {}
+      }
+    },
+    {
+      "campaign_lead_map_id": "3911353058",
+      "lead_category_id": null,
+      "status": "INPROGRESS",
+      "created_at": "2026-10-26T10:38:00.000Z",
+      "lead": {
+        "id": 4644953022,
+        "first_name": "SanitizedName",
+        "last_name": "SanitizedName",
+        "email": "lead@example.com",
+        "phone_number": "+15550000000",
+        "company_name": "A&P know how",
+        "website": null,
+        "location": null,
+        "custom_fields": {},
+        "linkedin_profile": "https://www.linkedin.com/in/mike-bailey-b9645263",
+        "company_url": "https://example.com",
+        "is_unsubscribed": false,
+        "unsubscribed_client_id_map": {}
+      }
+    }
+  ],
+  "offset": 0,
+  "limit": 5
+}

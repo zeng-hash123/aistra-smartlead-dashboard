@@ -1,0 +1,201 @@
+[
+  {
+    "id": 4239320,
+    "user_id": 654810,
+    "created_at": "2026-10-26T10:27:54.974Z",
+    "updated_at": "2026-11-02T14:04:16.054Z",
+    "status": "ACTIVE",
+    "name": "UK campaign 1 Creative",
+    "track_settings": [],
+    "scheduler_cron_value": {
+      "tz": "Asia/Calcutta",
+      "days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "endHour": "20:30",
+      "startHour": "17:30"
+    },
+    "min_time_btwn_emails": 5,
+    "max_leads_per_day": 40,
+    "stop_lead_settings": "REPLY_TO_AN_EMAIL",
+    "schedule_start_time": "2026-10-27T12:00:00.000Z",
+    "enable_ai_esp_matching": false,
+    "send_as_plain_text": false,
+    "follow_up_percentage": 100,
+    "unsubscribe_text": "Unsubscribe",
+    "parent_campaign_id": null,
+    "client_id": null,
+    "add_unsubscribe_tag": true,
+    "force_plain_text": false,
+    "domain_level_rate_limit": false,
+    "ai_categorisation_options": [],
+    "bounce_autopause_threshold": null,
+    "auto_pause_domain_leads_on_reply": false,
+    "ignore_ss_mailbox_sending_limit": false,
+    "out_of_office_detection_settings": {
+      "ignoreOOOasReply": false,
+      "autoCategorizeOOO": false,
+      "autoReactivateOOO": false,
+      "reactivateOOOwithDelay": null
+    },
+    "campaign_activity_logs": {},
+    "tags": []
+  },
+  {
+    "id": 4226551,
+    "user_id": 654810,
+    "created_at": "2026-10-23T13:37:28.709Z",
+    "updated_at": "2026-10-26T11:30:53.951Z",
+    "status": "DRAFTED",
+    "name": "australia-accounting",
+    "track_settings": [],
+    "scheduler_cron_value": {
+      "tz": "Australia/Brisbane",
+      "days": [
+        1,
+        3
+      ],
+      "endHour": "18:00",
+      "startHour": "09:00"
+    },
+    "min_time_btwn_emails": 20,
+    "max_leads_per_day": 100,
+    "stop_lead_settings": "REPLY_TO_AN_EMAIL",
+    "schedule_start_time": null,
+    "enable_ai_esp_matching": false,
+    "send_as_plain_text": false,
+    "follow_up_percentage": 100,
+    "unsubscribe_text": "",
+    "parent_campaign_id": null,
+    "client_id": null,
+    "add_unsubscribe_tag": false,
+    "force_plain_text": false,
+    "domain_level_rate_limit": false,
+    "ai_categorisation_options": [],
+    "bounce_autopause_threshold": null,
+    "auto_pause_domain_leads_on_reply": false,
+    "ignore_ss_mailbox_sending_limit": false,
+    "out_of_office_detection_settings": {
+      "ignoreOOOasReply": false,
+      "autoCategorizeOOO": false,
+      "autoReactivateOOO": false,
+      "reactivateOOOwithDelay": null
+    },
+    "campaign_activity_logs": {},
+    "tags": []
+  },
+  {
+    "id": 4224133,
+    "user_id": 654810,
+    "created_at": "2026-10-23T09:46:10.285Z",
+    "updated_at": "2026-10-23T13:27:14.835Z",
+    "status": "DRAFTED",
+    "name": "UK creative First Campaign",
+    "track_settings": [],
+    "scheduler_cron_value": {
+      "tz": "Asia/Calcutta",
+      "days": [
+        2,
+        4
+      ],
+      "endHour": "15:30",
+      "startHour": "13:30"
+    },
+    "min_time_btwn_emails": 5,
+    "max_leads_per_day": 70,
+    "stop_lead_settings": "REPLY_TO_AN_EMAIL",
+    "schedule_start_time": "2026-10-27T08:00:00.000Z",
+    "enable_ai_esp_matching": false,
+    "send_as_plain_text": false,
+    "follow_up_percentage": 100,
+    "unsubscribe_text": "",
+    "parent_campaign_id": null,
+    "client_id": null,
+    "add_unsubscribe_tag": false,
+    "force_plain_text": false,
+    "domain_level_rate_limit": false,
+    "ai_categorisation_options": [],
+    "bounce_autopause_threshold": null,
+    "auto_pause_domain_leads_on_reply": false,
+    "ignore_ss_mailbox_sending_limit": false,
+    "out_of_office_detection_settings": {
+      "ignoreOOOasReply": false,
+      "autoCategorizeOOO": false,
+      "autoReactivateOOO": false,
+      "reactivateOOOwithDelay": null
+    },
+    "campaign_activity_logs": {},
+    "tags": []
+  },
+  {
+    "id": 4042899,
+    "user_id": 654810,
+    "created_at": "2026-09-29T07:13:06.572Z",
+    "updated_at": "2026-10-08T10:58:19.214Z",
+    "status": "DRAFTED",
+    "name": "Creative - UK (Batch 1)",
+    "track_settings": [],
+    "scheduler_cron_value": {
+      "tz": "Asia/Calcutta",
+      "days": [
+        1,
+        2,
+        3,
+        4,
+        5
+      ],
+      "endHour": "18:00",
+      "startHour": "09:00"
+    },
+    "min_time_btwn_emails": 20,
+    "max_leads_per_day": 100,
+    "stop_lead_settings": "REPLY_TO_AN_EMAIL",
+    "schedule_start_time": null,
+    "enable_ai_esp_matching": false,
+    "send_as_plain_text": false,
+    "follow_up_percentage": 100,
+    "unsubscribe_text": "",
+    "parent_campaign_id": null,
+    "client_id": null,
+    "add_unsubscribe_tag": true,
+    "force_plain_text": false,
+    "domain_level_rate_limit": true,
+    "ai_categorisation_options": [
+      {
+        "id": 1,
+        "label": "Interested"
+      },
+      {
+        "id": 2,
+        "label": "Meeting Request"
+      },
+      {
+        "id": 3,
+        "label": "Not Interested"
+      },
+      {
+        "id": 4,
+        "label": "Do Not Contact"
+      },
+      {
+        "id": 5,
+        "label": "Information Request"
+      }
+    ],
+    "bounce_autopause_threshold": 15,
+    "auto_pause_domain_leads_on_reply": false,
+    "ignore_ss_mailbox_sending_limit": false,
+    "out_of_office_detection_settings": {
+      "ignoreOOOasReply": false,
+      "autoCategorizeOOO": false,
+      "autoReactivateOOO": false,
+      "reactivateOOOwithDelay": null
+    },
+    "campaign_activity_logs": {},
+    "tags": []
+  }
+]

@@ -1,0 +1,79 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: #090d16;
+  --foreground: #f8fafc;
+  --border: #1e293b;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0f19;
+}
+::-webkit-scrollbar-thumb {
+  background: #232d42;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #37435f;
+}
+
+/* Print-Friendly Stylesheet for PDF Export */
+@media print {
+  body {
+    background: #ffffff !important;
+    color: #0f172a !important;
+  }
+
+  .no-print {
+    display: none !important;
+  }
+
+  .print-page-break {
+    page-break-before: always;
+  }
+
+  /* Force white cards with dark borders for crisp printed document */
+  .bg-slate-900,
+  .bg-slate-900\/60,
+  .bg-slate-900\/80,
+  .bg-slate-950,
+  .bg-slate-950\/60,
+  .bg-slate-950\/80 {
+    background-color: #ffffff !important;
+    border-color: #cbd5e1 !important;
+    color: #0f172a !important;
+  }
+
+  .text-white,
+  .text-slate-100,
+  .text-slate-200 {
+    color: #0f172a !important;
+  }
+
+  .text-slate-300,
+  .text-slate-400 {
+    color: #334155 !important;
+  }
+
+  .text-slate-500 {
+    color: #64748b !important;
+  }
+
+  /* Keep charts readable */
+  svg text {
+    fill: #334155 !important;
+  }
+}

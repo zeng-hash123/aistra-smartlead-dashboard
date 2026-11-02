@@ -1,0 +1,44 @@
+{
+  "id": 4239320,
+  "user_id": 654810,
+  "created_at": "2026-10-26T10:27:54.974Z",
+  "updated_at": "2026-11-02T14:04:16.054Z",
+  "status": "ACTIVE",
+  "name": "UK campaign 1 Creative",
+  "track_settings": [],
+  "scheduler_cron_value": {
+    "tz": "Asia/Calcutta",
+    "days": [
+      1,
+      2,
+      3,
+      4,
+      5
+    ],
+    "endHour": "20:30",
+    "startHour": "17:30"
+  },
+  "min_time_btwn_emails": 5,
+  "max_leads_per_day": 40,
+  "stop_lead_settings": "REPLY_TO_AN_EMAIL",
+  "schedule_start_time": "2026-10-27T12:00:00.000Z",
+  "enable_ai_esp_matching": false,
+  "send_as_plain_text": false,
+  "follow_up_percentage": 100,
+  "unsubscribe_text": "Unsubscribe",
+  "parent_campaign_id": null,
+  "client_id": null,
+  "add_unsubscribe_tag": true,
+  "force_plain_text": false,
+  "domain_level_rate_limit": false,
+  "ai_categorisation_options": [],
+  "bounce_autopause_threshold": null,
+  "auto_pause_domain_leads_on_reply": false,
+  "ignore_ss_mailbox_sending_limit": false,
+  "out_of_office_detection_settings": {
+    "ignoreOOOasReply": false,
+    "autoCategorizeOOO": false,
+    "autoReactivateOOO": false,
+    "reactivateOOOwithDelay": null
+  }
+}

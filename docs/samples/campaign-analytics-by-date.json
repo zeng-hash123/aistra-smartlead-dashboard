@@ -1,0 +1,23 @@
+{
+  "id": 4239320,
+  "user_id": 654810,
+  "created_at": "2026-10-26T10:27:54.974Z",
+  "status": "ACTIVE",
+  "name": "UK campaign 1 Creative",
+  "start_date": "2026-10-26",
+  "end_date": "2026-11-02",
+  "sent_count": "164",
+  "unique_sent_count": "109",
+  "open_count": "115",
+  "unique_open_count": "81",
+  "click_count": "72",
+  "unique_click_count": "49",
+  "reply_count": "5",
+  "block_count": "0",
+  "total_count": "1130",
+  "drafted_count": "966",
+  "bounce_count": "5",
+  "unsubscribed_count": "0",
+  "total_reply_count": "5",
+  "non_ooo_reply_count": "5"
+}
