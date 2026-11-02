@@ -74,9 +74,11 @@ export function Header({
           {/* Brand & Status */}
           <div className="flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-indigo-400 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
-                <Mail className="w-5 h-5" />
-              </div>
+              <img
+                src="/logo.png"
+                alt="Aistra Logo"
+                className="w-10 h-10 rounded-xl object-contain shadow-md shadow-indigo-500/20"
+              />
               <div>
                 <div className="flex items-center gap-2">
                   <h1 className="text-base font-bold tracking-tight text-white leading-tight">

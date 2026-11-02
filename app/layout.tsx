@@ -7,6 +7,9 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 export const metadata: Metadata = {
   title: "Aistra Outreach Executive Dashboard | Smartlead",
   description: "Live, read-only cold email performance metrics across Creative and Accounting segments.",
+  icons: {
+    icon: "/logo.png",
+  },
 };
 
 export default function RootLayout({

@@ -26,12 +26,19 @@ export default async function SetupPage() {
         {/* Navigation & Header */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-6">
           <div className="space-y-1">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 font-medium mb-2 transition"
-            >
-              <ArrowLeft className="w-3.5 h-3.5" /> Back to Executive Dashboard
-            </Link>
+            <div className="flex items-center gap-3 mb-2">
+              <img
+                src="/logo.png"
+                alt="Aistra Logo"
+                className="w-8 h-8 rounded-lg object-contain shadow-md shadow-indigo-500/20"
+              />
+              <Link
+                href="/"
+                className="inline-flex items-center gap-1.5 text-xs text-indigo-400 hover:text-indigo-300 font-medium transition"
+              >
+                <ArrowLeft className="w-3.5 h-3.5" /> Back to Executive Dashboard
+              </Link>
+            </div>
             <h1 className="text-2xl font-bold tracking-tight text-white flex items-center gap-2.5">
               <Settings className="w-6 h-6 text-indigo-400" />
               Segment Configuration & Diagnostic Inspector

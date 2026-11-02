@@ -64,9 +64,11 @@ export function PresentationView({
       {/* Top Bar */}
       <div className="flex items-center justify-between pb-6 border-b border-slate-800/80">
         <div className="flex items-center gap-3">
-          <div className="w-12 h-12 rounded-2xl bg-indigo-600 flex items-center justify-center text-white shadow-xl shadow-indigo-600/30">
-            <TrendingUp className="w-6 h-6" />
-          </div>
+          <img
+            src="/logo.png"
+            alt="Aistra Logo"
+            className="w-12 h-12 rounded-2xl object-contain shadow-xl shadow-indigo-600/30"
+          />
           <div>
             <div className="flex items-center gap-3">
               <h1 className="text-2xl font-black tracking-tight text-white">

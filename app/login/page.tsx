@@ -52,9 +52,11 @@ export default function LoginPage() {
       <div className="w-full max-w-md relative z-10">
         {/* Brand header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-indigo-600/20 border border-indigo-500/30 text-indigo-400 mb-4 shadow-lg shadow-indigo-500/10">
-            <Mail className="w-7 h-7" />
-          </div>
+          <img
+            src="/logo.png"
+            alt="Aistra Logo"
+            className="w-16 h-16 rounded-2xl object-contain mb-4 shadow-xl shadow-indigo-500/20 mx-auto"
+          />
           <h1 className="text-2xl font-semibold tracking-tight text-white">
             Smartlead Executive Dashboard
           </h1>
