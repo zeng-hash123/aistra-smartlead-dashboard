@@ -10,6 +10,7 @@ import {
   DailyTrendPoint,
   MailboxHealth,
   HealthAlert,
+  SequenceStepStat,
 } from "./types";
 import {
   normalizeCampaign,
@@ -258,17 +259,94 @@ export async function getDashboardData(forceRefresh = false): Promise<DashboardP
     // 1. Fetch campaigns
     const rawCampaignsWithEnv = await fetchAllRawCampaigns();
 
-    // 2. Fetch analytics for each campaign
+    // 2. Fetch analytics, attached mailboxes, and stats for each individual campaign
     const normalizedCampaigns: CampaignMetrics[] = [];
     for (const item of rawCampaignsWithEnv) {
       try {
         const analytics = await smartleadGet<RawSmartleadCampaignAnalytics>(
           `/campaigns/${item.raw.id}/analytics`
+        ).catch(() => undefined);
+
+        // Fetch mailboxes assigned to this specific campaign
+        const campMailboxesRaw = await smartleadGet<RawSmartleadEmailAccount[]>(
+          `/campaigns/${item.raw.id}/email-accounts`
+        ).catch(() => []);
+        const campMailboxes = Array.isArray(campMailboxesRaw)
+          ? campMailboxesRaw.map((a) => normalizeMailbox(a))
+          : [];
+
+        // If emails have been sent on this campaign, fetch statistics for sequence breakdown and trend
+        const sentCount = Number(analytics?.sent_count || 0);
+        let campSequenceStats: SequenceStepStat[] = [];
+        let campTrend: DailyTrendPoint[] = [];
+
+        if (sentCount > 0) {
+          const statsRes = await smartleadGet<{ total_stats: string; data: RawSmartleadStatisticItem[] }>(
+            `/campaigns/${item.raw.id}/statistics`,
+            { limit: 200 }
+          ).catch(() => ({ total_stats: "0", data: [] }));
+
+          if (statsRes && Array.isArray(statsRes.data)) {
+            const seqMap: Record<number, { sent: number; opened: number; clicked: number; replied: number; bounced: number; subject: string }> = {};
+            const dailyMap: Record<string, DailyTrendPoint> = {};
+
+            for (const s of statsRes.data) {
+              const seqNum = Number(s.sequence_number) || 1;
+              if (!seqMap[seqNum]) {
+                seqMap[seqNum] = {
+                  sent: 0,
+                  opened: 0,
+                  clicked: 0,
+                  replied: 0,
+                  bounced: 0,
+                  subject: s.email_subject || `Step ${seqNum}`,
+                };
+              }
+              seqMap[seqNum].sent++;
+              if (s.open_time || (s.open_count && s.open_count > 0)) seqMap[seqNum].opened++;
+              if (s.click_time || (s.click_count && s.click_count > 0)) seqMap[seqNum].clicked++;
+              if (s.reply_time) seqMap[seqNum].replied++;
+              if (s.is_bounced || s.sender_bounce) seqMap[seqNum].bounced++;
+
+              if (s.sent_time) {
+                const dateStr = s.sent_time.slice(0, 10);
+                if (!dailyMap[dateStr]) {
+                  dailyMap[dateStr] = { date: dateStr, sent: 0, replied: 0, opened: 0, clicked: 0, bounced: 0 };
+                }
+                dailyMap[dateStr].sent++;
+                if (s.open_time || (s.open_count && s.open_count > 0)) dailyMap[dateStr].opened++;
+                if (s.click_time || (s.click_count && s.click_count > 0)) dailyMap[dateStr].clicked++;
+                if (s.reply_time) dailyMap[dateStr].replied++;
+                if (s.is_bounced || s.sender_bounce) dailyMap[dateStr].bounced++;
+              }
+            }
+
+            campSequenceStats = Object.entries(seqMap).map(([seqStr, stat]) => ({
+              sequenceNumber: Number(seqStr),
+              subject: stat.subject,
+              sent: stat.sent,
+              opened: stat.opened,
+              clicked: stat.clicked,
+              replied: stat.replied,
+              bounced: stat.bounced,
+              replyRate: stat.sent > 0 ? stat.replied / stat.sent : null,
+              openRate: stat.sent > 0 ? stat.opened / stat.sent : null,
+              clickRate: stat.sent > 0 ? stat.clicked / stat.sent : null,
+            })).sort((a, b) => a.sequenceNumber - b.sequenceNumber);
+
+            campTrend = Object.values(dailyMap).sort((a, b) => a.date.localeCompare(b.date));
+          }
+        }
+
+        normalizedCampaigns.push(
+          normalizeCampaign(item.raw, analytics, item.originKeyEnv, {
+            sequenceStats: campSequenceStats,
+            emailAccounts: campMailboxes,
+            trend: campTrend,
+          })
         );
-        normalizedCampaigns.push(normalizeCampaign(item.raw, analytics, item.originKeyEnv));
       } catch (err: any) {
-        console.warn(`Failed to fetch analytics for campaign ${item.raw.id}:`, err.message);
-        // Normalize even if analytics failed (defaults to 0, never crash)
+        console.warn(`Failed to process campaign ${item.raw.id}:`, err.message);
         normalizedCampaigns.push(normalizeCampaign(item.raw, undefined, item.originKeyEnv));
       }
     }

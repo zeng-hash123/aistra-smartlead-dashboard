@@ -1,18 +1,24 @@
 "use client";
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
-import { DashboardPayload } from "@/lib/smartlead/types";
+import { DashboardPayload, CampaignMetrics } from "@/lib/smartlead/types";
 import { Header } from "./Header";
-import { KpiRow } from "./KpiRow";
-import { SegmentComparison } from "./SegmentComparison";
-import { PerformanceTrendChart } from "./PerformanceTrendChart";
+import { CampaignSection } from "./CampaignSection";
 import { DeliverabilityPanel } from "./DeliverabilityPanel";
-import { CampaignsTable } from "./CampaignsTable";
-import { CampaignDrawer } from "./CampaignDrawer";
 import { PresentationView } from "./PresentationView";
 import { ErrorBanner } from "./ErrorBanner";
-import { LoadingSkeleton } from "./LoadingSkeleton";
+import {
+  Sparkles,
+  Calculator,
+  Layers,
+  Search,
+  Filter,
+  CheckCircle2,
+  FileEdit,
+  PlayCircle,
+  Eye,
+} from "lucide-react";
 
 interface DashboardClientProps {
   initialData: DashboardPayload;
@@ -25,8 +31,9 @@ export function DashboardClient({ initialData }: DashboardClientProps) {
   const [data, setData] = useState<DashboardPayload>(initialData);
   const [selectedSegment, setSelectedSegment] = useState<string>("all");
   const [selectedDateRange, setSelectedDateRange] = useState<string>("30d");
+  const [selectedCampaignId, setSelectedCampaignId] = useState<number | "all">("all");
+  const [searchQuery, setSearchQuery] = useState("");
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const [activeCampaignDrawerId, setActiveCampaignDrawerId] = useState<number | null>(null);
 
   // Presentation mode via ?present=1 query parameter or state toggle
   const isPresentParam = searchParams.get("present") === "1";
@@ -57,6 +64,7 @@ export function DashboardClient({ initialData }: DashboardClientProps) {
 
   const handleSelectSegment = (seg: string) => {
     setSelectedSegment(seg);
+    setSelectedCampaignId("all"); // reset campaign focus when segment changes
     fetchData(false, seg, selectedDateRange);
   };
 
@@ -78,6 +86,29 @@ export function DashboardClient({ initialData }: DashboardClientProps) {
       router.push("/");
     }
   };
+
+  // Filter campaigns by search and selected segment
+  const displayedCampaigns = useMemo(() => {
+    return data.campaigns.filter((c) => {
+      // Segment filter
+      if (selectedSegment !== "all" && c.segmentKey !== selectedSegment) {
+        return false;
+      }
+      // Single campaign filter
+      if (selectedCampaignId !== "all" && c.id !== selectedCampaignId) {
+        return false;
+      }
+      // Search query
+      if (searchQuery.trim()) {
+        const q = searchQuery.toLowerCase();
+        const matchesName = c.name.toLowerCase().includes(q);
+        const matchesTag = c.tags.some((t) => t.toLowerCase().includes(q));
+        const matchesSegment = c.segmentLabel.toLowerCase().includes(q);
+        return matchesName || matchesTag || matchesSegment;
+      }
+      return true;
+    });
+  }, [data.campaigns, selectedSegment, selectedCampaignId, searchQuery]);
 
   // If in Presentation Mode, render full-screen presentation view
   if (presentationMode) {
@@ -116,37 +147,107 @@ export function DashboardClient({ initialData }: DashboardClientProps) {
           isRefreshing={isRefreshing}
         />
 
-        {/* 1. Headline KPI Cards Row */}
-        <section aria-label="Executive KPIs">
-          <KpiRow metrics={data.aggregates} />
+        {/* Campaign Navigation & Selector Bar */}
+        <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 sm:p-5 shadow-sm space-y-3">
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-3">
+            <div>
+              <h2 className="text-sm font-bold text-white flex items-center gap-2">
+                <Layers className="w-4 h-4 text-indigo-400" />
+                Active Outreach Campaigns Directory
+              </h2>
+              <p className="text-xs text-slate-400">
+                Select a specific campaign or view all individual campaign performance sections below.
+              </p>
+            </div>
+
+            {/* Search Input */}
+            <div className="relative w-full md:w-64">
+              <Search className="w-3.5 h-3.5 absolute left-3 top-1/2 -translate-y-1/2 text-slate-500" />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Filter by campaign name..."
+                className="w-full pl-8 pr-3 py-1.5 bg-slate-950 border border-slate-800 rounded-xl text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+              />
+            </div>
+          </div>
+
+          {/* Campaign Selector Tabs */}
+          <div className="flex flex-wrap items-center gap-2 pt-1 border-t border-slate-800/80">
+            <button
+              onClick={() => setSelectedCampaignId("all")}
+              className={`px-3 py-1.5 rounded-xl text-xs font-semibold transition-all duration-150 flex items-center gap-1.5 ${
+                selectedCampaignId === "all"
+                  ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20"
+                  : "bg-slate-950 hover:bg-slate-800/80 text-slate-400 hover:text-slate-200 border border-slate-800"
+              }`}
+            >
+              <span>All Campaigns ({data.campaigns.length})</span>
+            </button>
+
+            {data.campaigns.map((camp) => {
+              const isSelected = selectedCampaignId === camp.id;
+              const isActive = camp.status === "ACTIVE";
+
+              return (
+                <button
+                  key={camp.id}
+                  onClick={() => setSelectedCampaignId(camp.id)}
+                  className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all duration-150 flex items-center gap-2 ${
+                    isSelected
+                      ? "bg-indigo-600 text-white shadow-md shadow-indigo-600/20 font-semibold"
+                      : "bg-slate-950 hover:bg-slate-800/80 text-slate-300 hover:text-white border border-slate-800"
+                  }`}
+                >
+                  <span
+                    className={`w-2 h-2 rounded-full ${
+                      isActive ? "bg-emerald-400 animate-pulse" : "bg-slate-500"
+                    }`}
+                  />
+                  <span>{camp.name}</span>
+                  <span className="text-[10px] text-slate-400 font-mono">
+                    ({camp.sent > 0 ? `${camp.sent} sent` : `${camp.leadsTotal} leads`})
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Individual Campaign Sections (NOT aggregated together) */}
+        <section aria-label="Individual Campaign Sections" className="space-y-6">
+          {displayedCampaigns.length === 0 ? (
+            <div className="bg-slate-900/60 border border-slate-800 rounded-2xl p-12 text-center space-y-3">
+              <Layers className="w-10 h-10 text-slate-600 mx-auto" />
+              <h3 className="text-base font-semibold text-slate-300">No campaigns match your filters</h3>
+              <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                Try selecting "All Campaigns" or resetting your search query.
+              </p>
+              <button
+                onClick={() => {
+                  setSelectedCampaignId("all");
+                  setSelectedSegment("all");
+                  setSearchQuery("");
+                }}
+                className="px-4 py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-xs font-medium text-slate-200 transition"
+              >
+                Reset Filters
+              </button>
+            </div>
+          ) : (
+            displayedCampaigns.map((camp) => (
+              <CampaignSection
+                key={camp.id}
+                campaign={camp}
+                defaultExpanded={true}
+              />
+            ))
+          )}
         </section>
 
-        {/* 2. Segment Scoreboard (Creative vs Accounting) */}
-        <section aria-label="Segment Comparison">
-          <SegmentComparison
-            segments={data.segments}
-            onSelectSegment={handleSelectSegment}
-          />
-        </section>
-
-        {/* 3. Outreach Velocity Trend Chart */}
-        <section aria-label="Performance Velocity">
-          <PerformanceTrendChart
-            data={data.trend}
-            selectedDateRange={selectedDateRange}
-          />
-        </section>
-
-        {/* 4. Campaigns Directory & Interactive Drawer Trigger */}
-        <section aria-label="Campaign Directory">
-          <CampaignsTable
-            campaigns={data.campaigns}
-            onSelectCampaign={(id) => setActiveCampaignDrawerId(id)}
-          />
-        </section>
-
-        {/* 5. Fleet Deliverability & Account Health */}
-        <section aria-label="Deliverability & Health">
+        {/* Fleet Deliverability & Account Health */}
+        <section aria-label="Fleet Deliverability & Health">
           <DeliverabilityPanel
             mailboxes={data.mailboxes}
             alerts={data.alerts}
@@ -154,16 +255,10 @@ export function DashboardClient({ initialData }: DashboardClientProps) {
         </section>
       </main>
 
-      {/* Campaign Detail Drawer (opens on campaign click) */}
-      <CampaignDrawer
-        campaignId={activeCampaignDrawerId}
-        onClose={() => setActiveCampaignDrawerId(null)}
-      />
-
       {/* Footer */}
       <footer className="no-print border-t border-slate-900 bg-slate-950 py-4 text-center text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
-          <span>Smartlead Read-Only Aggregator • Secure Server-Side Proxy</span>
+          <span>Smartlead Campaign Analyzer • Isolated Campaign Metrics</span>
           <span>Aistra Outreach Command Center</span>
         </div>
       </footer>

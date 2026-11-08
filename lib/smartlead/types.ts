@@ -144,6 +144,13 @@ export interface ComputedRates {
   completionRate: number | null;
 }
 
+export interface CampaignSchedule {
+  timezone?: string;
+  days?: number[];
+  startHour?: string;
+  endHour?: string;
+}
+
 export interface CampaignMetrics {
   id: number;
   name: string;
@@ -154,6 +161,7 @@ export interface CampaignMetrics {
   clientId: number | null;
   tags: string[];
   maxLeadsPerDay: number;
+  schedule?: CampaignSchedule;
   leadsTotal: number;
   leadsByStatus: LeadsByStatus;
   sent: number;
@@ -167,6 +175,9 @@ export interface CampaignMetrics {
   unsubscribed: number;
   interestedReplies: number | null;
   rates: ComputedRates;
+  sequenceStats: SequenceStepStat[];
+  emailAccounts: MailboxHealth[];
+  trend: DailyTrendPoint[];
 }
 
 export interface AggregateMetrics {

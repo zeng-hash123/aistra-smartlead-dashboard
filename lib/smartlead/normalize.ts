@@ -9,6 +9,8 @@ import {
   ComputedRates,
   MailboxHealth,
   LeadsByStatus,
+  SequenceStepStat,
+  DailyTrendPoint,
 } from "./types";
 import { resolveCampaignSegment, SEGMENTS, UNASSIGNED_SEGMENT } from "../../segments.config";
 
@@ -56,7 +58,12 @@ export function computeRates(
 export function normalizeCampaign(
   raw: RawSmartleadCampaign,
   analytics?: RawSmartleadCampaignAnalytics,
-  originKeyEnv?: string
+  originKeyEnv?: string,
+  extra?: {
+    sequenceStats?: SequenceStepStat[];
+    emailAccounts?: MailboxHealth[];
+    trend?: DailyTrendPoint[];
+  }
 ): CampaignMetrics {
   const segment = resolveCampaignSegment({
     name: raw.name || "",
@@ -102,6 +109,16 @@ export function normalizeCampaign(
 
   const interestedVal = safeNumber(rawLeadStats?.interested);
 
+  const cron = raw.scheduler_cron_value;
+  const schedule = cron
+    ? {
+        timezone: cron.tz || "UTC",
+        days: Array.isArray(cron.days) ? cron.days : [],
+        startHour: cron.startHour || "",
+        endHour: cron.endHour || "",
+      }
+    : undefined;
+
   return {
     id: safeNumber(raw.id),
     name: raw.name || `Campaign #${raw.id}`,
@@ -114,6 +131,7 @@ export function normalizeCampaign(
       ? raw.tags.map((t) => (typeof t === "string" ? t : t?.name || ""))
       : [],
     maxLeadsPerDay: safeNumber(raw.max_leads_per_day, 50),
+    schedule,
     leadsTotal,
     leadsByStatus,
     sent,
@@ -127,6 +145,9 @@ export function normalizeCampaign(
     unsubscribed,
     interestedReplies: interestedVal > 0 ? interestedVal : null,
     rates,
+    sequenceStats: extra?.sequenceStats || [],
+    emailAccounts: extra?.emailAccounts || [],
+    trend: extra?.trend || [],
   };
 }
 

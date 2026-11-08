@@ -44,8 +44,9 @@ export function resolveCampaignSegment(campaign: {
   tags?: Array<string | { name: string }> | null;
   originKeyEnv?: string;
 }): { key: string; label: string } {
-  // 1. Mode B: Distinct API key provided
-  if (campaign.originKeyEnv) {
+  // 1. Mode B: Distinct API key provided (only if secondary key is explicitly set in env)
+  const hasDistinctKeys = !!process.env.SMARTLEAD_API_KEY_ACCOUNTING;
+  if (hasDistinctKeys && campaign.originKeyEnv) {
     const matchByKey = SEGMENTS.find((s) => s.apiKeyEnv === campaign.originKeyEnv);
     if (matchByKey) {
       return { key: matchByKey.key, label: matchByKey.label };
